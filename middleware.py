@@ -15,15 +15,16 @@ class AnnouncementMiddleware(object):
 
 		announcements = amodels.Announcement.objects.filter(\
 			Q(url__isnull=True)|Q(url__exact=path)).filter(\
-			Q(start_time__isnull=True)|Q(start_time__gte=datetime.datetime.now())).filter(\
-			Q(expire_time__isnull=True)|Q(expire_time__lte=datetime.datetime.now()))
+			Q(start_time__isnull=True)|Q(start_time__lte=datetime.datetime.now())).filter(\
+			Q(expire_time__isnull=True)|Q(expire_time__gte=datetime.datetime.now()))
 
 		if not request.user.is_authenticated():
+			pass
 			announcements = announcements.exclude(auth_only=True)
-			acknowledged_announcements += [i.pk for i in request.user.announcement_set.values_list('pk',flat=True).distinct()]
 
 		else:
 			announcements = announcements.exclude(auth_acknowledgments=request.user)
+			acknowledged_announcements += [i.pk for i in request.user.announcement_set.values_list('pk',flat=True).distinct()]
 
 		announcements = announcements.exclude(Q(acknowledge=True)&Q(pk__in=acknowledged_announcements))
 

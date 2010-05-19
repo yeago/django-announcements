@@ -21,3 +21,8 @@ class Announcement(models.Model):
 	databases. An FK link to the table makes no sense in this case.
 	"""
 	auth_acknowledgments = models.ManyToManyField('auth.User',blank=True,editable=False)
+	def save(self,*args,**kwargs):
+		if self.url == '':
+			self.url = None
+
+		super(Announcement,self).save(*args,**kwargs)
