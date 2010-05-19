@@ -24,7 +24,7 @@ class AnnouncementMiddleware(object):
 
 		else:
 			announcements = announcements.exclude(auth_acknowledgments=request.user)
-			acknowledged_announcements += [i.pk for i in request.user.announcement_set.values_list('pk',flat=True).distinct()]
+			acknowledged_announcements.extend(request.user.announcement_set.values_list('pk',flat=True).distinct())
 
 		announcements = announcements.exclude(Q(acknowledge=True)&Q(pk__in=acknowledged_announcements))
 

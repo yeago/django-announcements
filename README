@@ -1,0 +1,48 @@
+Hello and welcome. This app is designed to allow you to easily drop in messages to users
+of your project. You display them much like messages (they are called 'announcements' in the
+template). There are a few configuration options:
+
+MODEL NOTES
+Model fields and their function:
+
+	url: 		Maybe you want to display an announcement about changes to a particular page, 
+			site-wide or just to '/'. Default = site-wide
+
+	start_time, expire_time: Optional. Starts and stops messages at particular times
+
+	message_level: 	In case you need varying levels of options. Uses django.contrib.messages 
+			defaults and respects your overrides if you've done so
+
+	acknowledge: 	If you want to allow users to dismiss announcements, check this. 
+			Otherwise they're sticky. NOTE: This system is both cookie based
+			and auth.user M2M based. If you use the router explained at the bottom
+			of the page, then its *only* cookie-based.
+
+	auth_only: 	authenticated users only. 
+
+	sites: 		Yeah. Sites. 
+
+INSTALLATION NOTES
+Installation is a lot like django.contrib.messages in some ways:
+
+- Include the announcements.urls in your root url conf to allow users to dismiss (acknowledge)
+- Add 'announcements' to your INSTALLED_APPS
+- Add 'announcements.context_processors.announcements' to your TEMPLATE_CONTEXT_PROCESSORS
+- Add 'announcements.middleware.AnnouncementMiddleware' to your MIDDLEWARE_CLASSES
+
+...Make sure this one is after your AuthenticationMiddleware. Duh, you knew that =)
+
+MULTI_DB NOTES
+Some setups might want to send announcements out to many different projects. If so...
+
+-Add 'announcements.routers.AnnouncementRouter' to your DATABASE_ROUTERS
+
+See the note about this router in the 'acknowledge' field above. See views.py for the
+point of functionality.
+
+COOKIE NOTES
+The cookie installs using Site.objects.get_current() and strips any subdomains off
+and appends a dot, so that browsers will know that an announcement acknowledged at
+one domain (www perhaps) should also be acknowledged at the rest of the domains.
+
+If this isn't preferrable... I dunno. Submit a patch I guess. 
