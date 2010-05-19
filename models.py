@@ -9,6 +9,7 @@ class Announcement(models.Model):
 	acknowledge = models.BooleanField(verbose_name="Needs acknowledgment",\
 		help_text="Will remain until the user waives the message away. Otherwise, its 'sticky'",default=False)
 	auth_only = models.BooleanField(verbose_name="Authenticated users only",default=False)
+	message_level = models.CharField(max_length=20,choices=[],help_text="Borrowed from the messages framework")
 	body = models.TextField()
 
 	"""
