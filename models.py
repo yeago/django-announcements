@@ -1,6 +1,6 @@
 from django.db import models
 
-class SiteMessage(models.Model):
+class Announcement(models.Model):
 	sites = models.ManyToManyField('sites.Site',blank=True,help_text="If left blank, will always use current site")
 	domain_insensitive = models.BooleanField(default=True,help_text="Will display across all domains")
 	url = models.CharField(max_length=255,blank=True,null=True,help_text="Absolute URL to display message (include leading slash). Leave blank for all")
@@ -15,7 +15,7 @@ class SiteMessage(models.Model):
 	Below field provides better acknowledgment support for auth users.
 	This can be overridden by settings ANNOUNCEMENT_FOREGO_USERTABLE = True
 
-	One might not want to use this in situations where the Messages app 
+	One might not want to use this in situations where this announcement app 
 	is kept in a separate db and serves multiple projects with different 
 	databases. An FK link to the table makes no sense in this case.
 	"""
