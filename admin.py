@@ -19,7 +19,7 @@ class AnnouncementAdminForm(forms.ModelForm):
 		model = amodels.Announcement
 
 class AnnouncementAdmin(admin.ModelAdmin):
-	list_display = ['url','message_level','start_time','expire_time','acknowledge','auth_only',sites,'domain_insensitive']
+	list_display = ['url','message_level','start_time','expire_time','acknowledge','auth_only',sites]
 	form = AnnouncementAdminForm
 
 admin.site.register(amodels.Announcement,AnnouncementAdmin)
