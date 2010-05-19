@@ -11,5 +11,12 @@ class SiteMessage(models.Model):
 	auth_only = models.BooleanField(verbose_name="Authenticated users only",default=False)
 	body = models.TextField()
 
-	# Below field provides better acknowledgment support for auth users
+	"""
+	Below field provides better acknowledgment support for auth users.
+	This can be overridden by settings ANNOUNCEMENT_FOREGO_USERTABLE = True
+
+	One might not want to use this in situations where the Messages app 
+	is kept in a separate db and serves multiple projects with different 
+	databases. An FK link to the table makes no sense in this case.
+	"""
 	auth_acknowledgments = models.ManyToManyField('auth.User',blank=True,editable=False)
