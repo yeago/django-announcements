@@ -2,6 +2,7 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404, redirect
 
 from announcements import models as amodels
+from announcements.cookie import get_cookie_varname, decode_cookie
 
 def acknowledge(request,id,return_url=None):
 	announcement = get_object_or_404(amodels.Announcement,pk=id)
@@ -17,7 +18,10 @@ def acknowledge(request,id,return_url=None):
 		if use_auth:
 			announcement.auth_acknowledgments.add(request.user)
 
-		# TODO: set cookie acknowledgement
-
 	return_url = request.GET.get('return_url') or return_url or '/'
-	return redirect(return_url)
+	response = redirect(return_url)
+
+	cookie_acknowledgments = [str(i) for i in decode_cookie(request.COOKIES)]
+	cookie_acknowledgments.append(str(announcement.pk))
+	response.set_cookie(get_cookie_varname(),",".join(cookie_acknowledgments))
+	return response

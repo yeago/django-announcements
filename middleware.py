@@ -4,6 +4,7 @@ from django.conf import settings
 from django.db.models import Q
 
 from announcements import models as amodels
+from announcements.cookie import get_cookie_varname, decode_cookie
 
 class AnnouncementMiddleware(object):
 	def process_request(self, request):
@@ -19,8 +20,8 @@ class AnnouncementMiddleware(object):
 			Q(expire_time__isnull=True)|Q(expire_time__gte=datetime.datetime.now()))
 
 		if not request.user.is_authenticated():
-			pass
 			announcements = announcements.exclude(auth_only=True)
+			acknowledged_announcements.extend(decode_cookie(request.COOKIES))
 
 		else:
 			announcements = announcements.exclude(auth_acknowledgments=request.user)
