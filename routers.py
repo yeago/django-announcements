@@ -9,27 +9,22 @@ table won't work anymore, so you will have to rely entirely on cookie-
 based acknowledgments.
 """
 
-class AnnouncementRouter(object):
+class AnnouncementsRouter(object):
 	def db_for_read(self, model,  **hints):
 		if model._meta.app_label == "announcements":
-			return getattr(settings,"ANNOUNCEMENT_DBNAME","announcements")
+			return getattr(settings,"ANNOUNCEMENTS_DBNAME","announcements")
 		return None
 
 	def db_for_write(self, model, **hints):
 		if model._meta.app_label == "announcements":
-			return getattr(settings,"ANNOUNCEMENT_DBNAME","announcements")
+			return getattr(settings,"ANNOUNCEMENTS_DBNAME","announcements")
 		return None
 
 	def allow_syncdb(self, db, model):
-		if db == getattr(settings,"ANNOUNCEMENT_DBNAME","announcements"):
+		if db == getattr(settings,"ANNOUNCEMENTS_DBNAME","announcements"):
 			return model._meta.app_label == "announcements"
 
 		elif model._meta.app_label == "announcements":
 			return False
 
-		return None
-
-	def allow_relation(self, obj1, obj2, **hints):
-		if obj1._meta.app_label == 'announcements' or obj2._meta.app_label == 'announcements':
-			return True
 		return None
