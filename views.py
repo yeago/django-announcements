@@ -11,7 +11,7 @@ def acknowledge(request,id,return_url=None):
 		use_auth = True
 
 		for i in getattr(settings,"DATABASE_ROUTERS") or []:
-			if "AnnouncementRouter" in i:
+			if "AnnouncementsRouter" in i:
 				use_auth = False
 				break
 
