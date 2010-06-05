@@ -3,7 +3,7 @@ from django.db import models
 class Announcement(models.Model):
 	url = models.CharField(max_length=255,blank=True,null=True,help_text="Absolute URL to display message (include leading slash). Leave blank for all")
 	start_time = models.DateTimeField(null=True,blank=True,help_text="For scheduling in the future")
-	expire_time = models.DateTimeField(null=True,blank=True)
+	expire_time = models.DateTimeField(null=True,blank=True,help_text="Its a *VERY* good idea to use this.")
 	body = models.TextField()
 	message_level = models.CharField(max_length=20,choices=[],help_text="Borrowed from the messages framework")
 	sites = models.ManyToManyField('sites.Site',blank=True,help_text="If left blank, will always use current site")
