@@ -21,6 +21,7 @@ class AnnouncementsMiddleware(object):
 
 		if not request.user.is_authenticated():
 			announcements = announcements.exclude(auth_only=True)
+			acknowledged_announcements.extend(decode_cookie(request.COOKIES))
 
 		else:
 			use_auth = True
