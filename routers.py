@@ -20,6 +20,9 @@ class AnnouncementsRouter(object):
 			return getattr(settings,"ANNOUNCEMENTS_DBNAME","announcements")
 		return None
 
+	def allow_relation(self, obj1, obj, **hints):
+		return False
+
 	def allow_syncdb(self, db, model):
 		if db == getattr(settings,"ANNOUNCEMENTS_DBNAME","announcements"):
 			return model._meta.app_label == "announcements"
