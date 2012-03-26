@@ -28,7 +28,7 @@ Installation is a lot like django.contrib.messages in some ways:
 - Include the announcements.urls in your root url conf to allow users to dismiss (acknowledge)
 - Add 'announcements' to your INSTALLED_APPS
 - Add 'announcements.context_processors.announcements' to your TEMPLATE_CONTEXT_PROCESSORS
-- Add 'announcements.middleware.AnnouncementMiddleware' to your MIDDLEWARE_CLASSES
+- Add 'announcements.middleware.AnnouncementsMiddleware' to your MIDDLEWARE_CLASSES
 
 ...Make sure this one is after your AuthenticationMiddleware. Duh, you knew that =)
 
