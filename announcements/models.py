@@ -25,3 +25,6 @@ class Announcement(models.Model):
 			self.url = None
 
 		super(Announcement,self).save(*args,**kwargs)
+
+	def __unicode__(self):
+		return self.body[:100]
