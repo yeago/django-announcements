@@ -14,10 +14,18 @@ class AnnouncementsMiddleware(object):
 
 		acknowledged_announcements = []
 
+		now = datetime.datetime.now()
+		# Use timezone aware datetime.now() method for django>=1.4
+		try:
+			from django.utils.timezone import utc
+			now = datetime.datetime.utcnow().replace(tzinfo=utc)
+		except ImportError:
+			pass
+
 		announcements = amodels.Announcement.objects.filter(\
 			Q(url__isnull=True)|Q(url__exact=path)).filter(\
-			Q(start_time__isnull=True)|Q(start_time__lte=datetime.datetime.now())).filter(\
-			Q(expire_time__isnull=True)|Q(expire_time__gte=datetime.datetime.now()))
+			Q(start_time__isnull=True)|Q(start_time__lte=now)).filter(\
+			Q(expire_time__isnull=True)|Q(expire_time__gte=now))
 
 		if not request.user.is_authenticated():
 			announcements = announcements.exclude(auth_only=True)
